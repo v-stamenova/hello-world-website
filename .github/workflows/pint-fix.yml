@@ -1,0 +1,40 @@
+name: Fix Coding Style
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: "The branch to run Pint on (must not be 'main')"
+        required: true
+        default: ""
+
+jobs:
+  fix_style:
+    runs-on: ubuntu-latest
+
+    if: ${{ github.ref != 'refs/heads/main' }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.branch }}
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+
+      - name: Install Dependencies
+        run: composer install --prefer-dist --no-progress --no-suggest
+
+      - name: Install Pint
+        run: composer global require laravel/pint
+
+      - name: Run Pint to Fix Issues
+        run: pint --fix
+
+      - name: Commit and Push Linted Files
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Fixes coding style"

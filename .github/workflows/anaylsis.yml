@@ -1,0 +1,41 @@
+name: Static Analysis
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  workflow_dispatch:
+
+jobs:
+  larastan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use PHP 8.3
+        uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
+        with:
+          php-version: '8.3'
+
+      - name: Install Larastan
+        run: composer require --dev "larastan/larastan:^2.0"
+
+      - name: Run Static Analysis with Larastan (PHPStan)
+        run: ./vendor/bin/phpstan --error-format=github
+
+  pint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use PHP 8.3
+        uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
+        with:
+          php-version: '8.3'
+
+      - name: Install Pint
+        run: composer global require laravel/pint
+
+      - name: Run Code Quality Analysis with Laravel Pint
+        run: pint --test
