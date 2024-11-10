@@ -17,8 +17,8 @@ jobs:
         with:
           php-version: '8.3'
 
-      - name: Install composer dependencies
-        run: composer install -n --prefer-dist
+      - name: Install Larastan
+        run: composer require --dev "larastan/larastan:^2.0"
 
       - name: Run Static Analysis with Larastan (PHPStan)
         run: ./vendor/bin/phpstan --error-format=github
@@ -37,8 +37,8 @@ jobs:
         with:
           php-version: '8.3'
 
-      - name: Install composer dependencies
-        run: composer install -n --prefer-dist
+      - name: Install Pint
+        run: composer global require laravel/pint
 
       - name: Run Code Quality Analysis with Laravel Pint
         run: ./vendor/bin/pint --test
