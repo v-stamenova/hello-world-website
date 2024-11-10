@@ -23,9 +23,6 @@ jobs:
       - name: Run Static Analysis with Larastan (PHPStan)
         run: ./vendor/bin/phpstan --error-format=github
 
-      - name: Run Code Quality Analysis with Laravel Pint
-        run: ./vendor/bin/pint --test
-
   pint:
     runs-on: ubuntu-latest
 
@@ -41,4 +38,4 @@ jobs:
         run: composer global require laravel/pint
 
       - name: Run Code Quality Analysis with Laravel Pint
-        run: ./vendor/bin/pint --test
+        run: pint --test
