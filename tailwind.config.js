@@ -20,6 +20,10 @@ export default {
         },
     },
 
+    daisyui: {
+        themes: ["light", "dark", "forest", "retro"],
+    },
+
     plugins: [
 		forms,
 		typography,
