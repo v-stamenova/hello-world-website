@@ -21,10 +21,11 @@ class Index extends Component
     protected PartnerService $partnerService;
 
     public $headers = [
-        ['key' => 'id', 'label' => '#', 'class' => 'text-primary-content'],
-        ['key' => 'name', 'label' => 'Name', 'class' => 'text-primary-content'],
-        ['key' => 'type', 'label' => 'Type', 'class' => 'text-primary-content'],
-        ['key' => 'created_at', 'label' => 'Date of creation', 'class' => 'text-primary-content'],
+        ['key' => 'id', 'label' => '#', 'class' => 'text-primary-content text-sm'],
+        ['key' => 'name', 'label' => 'Name', 'class' => 'text-primary-content text-sm'],
+        ['key' => 'type', 'label' => 'Type', 'class' => 'text-primary-content text-sm'],
+        ['key' => 'created_at', 'label' => 'Date of creation', 'class' => 'text-primary-content text-sm'],
+        ['key' => 'actions', 'label' => 'Actions', 'class' => 'text-primary-content text-sm']
     ];
 
     public array $sortBy = ['column' => 'name', 'direction' => 'asc'];
