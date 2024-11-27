@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('website');
             $table->string('email');
             $table->string('type');
+            $table->string('contact_person')->nullable();
             $table->string('phone_number')->nullable();
             $table->string('logo_path')->nullable();
             $table->string('dark_logo_path')->nullable();

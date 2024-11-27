@@ -11,6 +11,17 @@ export default {
 		 './resources/views/**/*.blade.php',
 		 "./vendor/robsontenorio/mary/src/View/Components/**/*.php"
 	],
+    safelist: [
+        'w-screen',
+        'w-81',
+        'max-w-screen-lg',
+        'bg-green-50',
+        'border',
+        'border-green-800',
+        'text-green-800',
+        'text-sm',
+        'shadow-sm'
+    ],
 
     theme: {
         extend: {

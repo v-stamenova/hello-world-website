@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Locked;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -36,6 +37,7 @@ class Index extends Component
         $this->partnerService = $partnerService;
     }
 
+    #[On("update-partners-list")]
     public function render()
     {
         $partners = Partner::query()
