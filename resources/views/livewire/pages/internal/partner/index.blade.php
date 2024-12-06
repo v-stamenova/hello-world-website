@@ -13,23 +13,23 @@
     </div>
 
     <div class="mt-5">
-        <x-mary-table :headers="$headers" :rows="$partners" :sort-by="$sortBy" >
-            @scope('cell_actions', $partner)
-                <x-mary-dropdown class="sm">
-                    <x-slot:trigger>
-                        <x-mary-button class="btn-xs" icon="o-bars-3" />
-                    </x-slot:trigger>
+        <x-mary-table :headers="$headers" :rows="$partners" :sort-by="$sortBy">
 
-                    <x-mary-menu-item title="Change logo" icon="o-photo" />
-                    <x-mary-menu-item title="Edit" icon="o-pencil" />
-                    <x-mary-menu-item title="Change address" icon="o-building-office-2" />
-                    <x-mary-menu-item title="Remove" icon="o-trash" />
-                </x-mary-dropdown>
+            <!-- TODO: figure out whats up with the snapshot errors -->
+            @scope('cell_actions', $partner)
+{{--
+                    <x-mary-button class="btn-xs" icon="o-pencil" wire:click="editPartner({{ $partner->id }})" tooltip="Edit" />
+                    <x-mary-button class="btn-xs" icon="o-building-office-2" wire:click="changeAddress({{ $partner->id }})" tooltip="Change Address" />
+                    <x-mary-button class="btn-xs" icon="o-trash" wire:click="removePartner({{ $partner->id }})" tooltip="Remove" />
+--}}
             @endscope
 
             <x-slot:empty>
                 <x-mary-icon class='text-primary-content' name="o-cube" label="It is empty." />
             </x-slot:empty>
         </x-mary-table>
+{{--
+        <livewire:pages.internal.partner.changeLogo />
+--}}
     </div>
 </div>

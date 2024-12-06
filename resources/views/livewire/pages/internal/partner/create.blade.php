@@ -3,8 +3,8 @@
                   title="Add a new partner"
                   subtitle="Collaborating with a company or another association? Add them here."
                   >
-        <x-mary-form class="w-full grid grid-cols-2 gap-6 items-start auto-rows-min relative" wire:submit.prevent="save">
-            <div class="grid gap-3 box-border border-r-2 border-secondary pr-6 h-full">
+        <x-mary-form class="w-full grid gap-6 items-start auto-rows-min relative" wire:submit.prevent="save">
+            <div class="grid gap-3">
                 <p class="text-lg font-semibold text-gray-700 ">
                     Basic information
                 </p>
@@ -27,9 +27,12 @@
                     <label class="pt-0 label label-text font-semibold inline-flex">Type</label>
                     <x-mary-input wire:model="type" hint="E.g. sponsor, association"/>
                 </div>
-            </div>
-            <div class="grid gap-3 box-border pl-0">
-                <p class="text-lg font-semibold text-gray-700 ">
+                <div>
+                    <x-mary-file hideProgress="true" wire:model="logo" label="Logo" hint="Only images" crop-after-change accept="image/jpeg, image/png, image/gif, image/webp, image/bmp" >
+                        <img alt="Placeholder" src="https://placehold.co/600x400" class="h-40 rounded-lg" />
+                    </x-mary-file>
+                </div>
+                <p class="text-lg font-semibold text-gray-700">
                     Contact information
                 </p>
                 <div>
@@ -43,6 +46,13 @@
                 <div>
                     <label class="pt-0 label label-text font-semibold inline-flex">Phone number</label>
                     <x-mary-input wire:model="phone_number" hint="Use international format (e.g. +31)"/>
+                </div>
+                <p class="text-lg font-semibold text-gray-700">
+                    Publishing status
+                </p>
+                <div>
+                    <label class="pt-0 label label-text font-semibold inline-flex">Status</label>
+                    <x-mary-select :options="$availableStatuses" option-label="display" option-value="value" wire:model="status"/>
                 </div>
             </div>
 

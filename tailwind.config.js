@@ -32,7 +32,20 @@ export default {
     },
 
     daisyui: {
-        themes: ["light", "dark", "forest", "retro"],
+        themes: ["light", "dark", "forest", "retro",
+            {
+                hwtheme: {
+                    "primary": "#3ebaec",
+                    "secondary": "#dcfba9",
+                    "accent": "#f962cd",
+                    "neutral": "#111827",
+                    "base-100": "#dbeafe",
+                    "info": "#0000ff",
+                    "success": "#10b981",
+                    "warning": "#fde047",
+                    "error": "#f87171",
+                },
+            },],
     },
 
     plugins: [

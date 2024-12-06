@@ -22,11 +22,7 @@ return new class extends Migration
             $table->string('contact_person')->nullable();
             $table->string('phone_number')->nullable();
             $table->string('logo_path')->nullable();
-            $table->string('dark_logo_path')->nullable();
-            $table->string('postcode')->nullable();
-            $table->string('street')->nullable();
-            $table->string('house_number')->nullable();
-            $table->string('city')->nullable();
+            $table->string('status');
 
             $table->softDeletes();
 

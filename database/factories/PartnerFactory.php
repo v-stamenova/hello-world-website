@@ -24,11 +24,7 @@ class PartnerFactory extends Factory
             'phone_number' => $this->faker->optional()->phoneNumber,
             'type' => 'sponsor',
             'logo_path' => $this->faker->optional()->imageUrl(100, 100, 'business', true, 'logo'),
-            'dark_logo_path' => $this->faker->optional()->imageUrl(100, 100, 'business', true, 'dark logo'),
-            'postcode' => $this->faker->optional()->postcode,
-            'street' => $this->faker->optional()->streetName,
-            'house_number' => $this->faker->optional()->buildingNumber,
-            'city' => $this->faker->optional()->city,
+            'status' => 'hidden',
         ];
     }
 }
