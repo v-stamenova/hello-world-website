@@ -56,4 +56,8 @@ class Index extends Component
     public function openCreate() {
         $this->dispatch('open-create');
     }
+
+    public function openDelete(int $partnerId) {
+        $this->dispatch('open-delete', partnerId: $partnerId);
+    }
 }

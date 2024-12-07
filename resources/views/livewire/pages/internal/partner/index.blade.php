@@ -15,11 +15,7 @@
         <x-mary-table :headers="$headers" :rows="$partners" :sort-by="$sortBy">
             @scope('cell_actions', $partner)
                 <x-mary-button class="btn-xs" icon="o-pencil" wire:click="openEdit({{$partner->id}})" tooltip="Edit"/>
-{{--
-                    <x-mary-button class="btn-xs" icon="o-pencil" wire:click="editPartner({{ $partner->id }})" tooltip="Edit" />
-                    <x-mary-button class="btn-xs" icon="o-building-office-2" wire:click="changeAddress({{ $partner->id }})" tooltip="Change Address" />
-                    <x-mary-button class="btn-xs" icon="o-trash" wire:click="removePartner({{ $partner->id }})" tooltip="Remove" />
---}}
+                <x-mary-button class="btn-xs" icon="o-trash" wire:click="openDelete({{ $partner->id }})" tooltip="Remove" />
             @endscope
 
             <x-slot:empty>
@@ -29,6 +25,7 @@
 
         <livewire:pages.internal.partner.edit/>
         <livewire:pages.internal.partner.create/>
+        <livewire:pages.internal.partner.delete/>
         {{--
                 <livewire:pages.internal.partner.changeLogo />
         --}}

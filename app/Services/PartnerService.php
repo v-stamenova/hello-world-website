@@ -46,4 +46,9 @@ class PartnerService
 
         return $partner->update($validator->validated());
     }
+
+    public function deletePartner(int $partnerId): bool
+    {
+        return Partner::query()->findOrFail($partnerId)->delete();
+    }
 }
