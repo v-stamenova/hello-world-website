@@ -7,6 +7,7 @@ use Database\Factories\PartnerFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Validation\Rule;
 
 /**
  *
@@ -59,7 +60,7 @@ class Partner extends Model
             'phone_number' => 'nullable|string|regex:/^\+?[0-9]{11,14}$/',
             'contact_person' => 'nullable|string|max:255|regex:/^[\pL\s\-]+$/u',
             'status' => 'required|string|in:' . implode(',', array_map(fn($case) => $case->value, Status::cases())),
-            'logo_path' => '',
+            'logo_path' => ['nullable', 'string', 'max:255', Rule::notIn([config('app.fallback_image_url')])],
         ];
     }
 
@@ -73,6 +74,8 @@ class Partner extends Model
             'email' => 'required|email|max:255',
             'phone_number' => 'nullable|string|regex:/^\+?[0-9]{11,14}$/',
             'contact_person' => 'nullable|string|max:255|regex:/^[\pL\s\-]+$/u',
+            'status' => 'required|string|in:' . implode(',', array_map(fn($case) => $case->value, Status::cases())),
+            'logo_path' => ['nullable', 'string', 'max:255', Rule::notIn([config('app.fallback_image_url')])],
         ];
     }
 }

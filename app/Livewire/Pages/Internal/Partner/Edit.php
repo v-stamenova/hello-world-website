@@ -3,6 +3,7 @@
 namespace App\Livewire\Pages\Internal\Partner;
 
 use App\Enums\EnumHelper;
+use App\Enums\Status;
 use App\Models\Partner;
 use App\Services\PartnerService;
 use App\Traits\FileValidation;
@@ -13,9 +14,8 @@ use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Livewire\WithFileUploads;
 use Mary\Traits\Toast;
 
-#[On('open-create')]
-#[On('close-create')]
-class Create extends Component
+#[On('edit-opened')]
+class Edit extends Component
 {
     use Toast;
     use WithFileUploads;
@@ -29,35 +29,26 @@ class Create extends Component
     public string $description;
     public string $email;
     public ?TemporaryUploadedFile $logo = null;
-    public ?string $logo_path = '';
+    public string $logo_path = '';
     public string $name;
     public string $phone_number;
     public string $status;
     public string $type;
     public string $website;
+    public bool $isEditOpen = false;
 
-    public bool $createIsOpen = false;
+    public Partner $partner;
+    public int $partnerId;
     private PartnerService $partnerService;
 
     public function boot(PartnerService $partnerService): void {
         $this->partnerService = $partnerService;
     }
 
-    #[On('open-create')]
-    public function setUpModal()
-    {
-        $this->logo = null;
-        $this->logo_path = null;
-        $this->dispatch('$refresh');
-
-        $this->availableStatuses = EnumHelper::getStatuses();
-        $this->createIsOpen = true;
-    }
-
     public function save() : void {
         $data = $this->validate(
             array_merge(
-                Partner::validationRulesCreation(),
+                Partner::validationRulesUpdate(),
                 [
                     'logo' => [
                         'nullable',
@@ -71,16 +62,13 @@ class Create extends Component
             ]
         );
 
-        $this->logo_path = '';
-        $this->dispatch('close-create');
-
         try {
             if($this->logo) {
                 $this->validateFileNameLength($this->logo, 'logo');
                 $this->logo_path = $this->logo->store('logos', 'public');
             }
 
-            $this->partnerService->createPartner(array_merge($data, ['logo_path' => $this->logo_path]));
+            $this->partnerService->updatePartner($this->partnerId, array_merge($data, ['logo_path' => $this->logo_path]));
             $this->cleanUpSuccessfully();
         } catch (Exception $exception) {
             $this->error(
@@ -90,28 +78,48 @@ class Create extends Component
         }
     }
 
+    #[On('open-edit')]
+    public function setUpModal(int $partnerId) {
+        $this->reset();
+
+        $this->partnerId = $partnerId;
+        $this->partner = $this->partnerService->getPartner($partnerId);
+        $this->availableStatuses = EnumHelper::getStatuses();
+
+        $this->name = $this->partner->name;
+        $this->description = $this->partner->description ?? '';
+        $this->website = $this->partner->website ?? '';
+        $this->type = $this->partner->type ?? '';
+        $this->email = $this->partner->email ?? '';
+        $this->phone_number = $this->partner->phone_number ?? '';
+        $this->contact_person = $this->partner->contact_person ?? '';
+        $this->status = $this->partner->status ?? '';
+        $this->logo_path = $this->partner->logo_path ?? '';
+
+        $this->isEditOpen = true;
+        $this->dispatch('edit-opened');
+    }
+
+    public function close() : void {
+        $this->isEditOpen = false;
+        $this->reset();
+        $this->render();
+    }
+
     public function cleanUpSuccessfully() : void {
         $this->dispatch("update-partners-list");
         $this->reset();
-
-        $this->createIsOpen = false;
-
+        $this->isEditOpen = false;
+        $this->render();
         $this->toast(
             type: 'success',
-            title: 'Partner added!',
+            title: 'Partner updated!',
             icon: 'o-check-circle',
             css: 'text-sm bg-green-50 border border-green-800 text-green-800 shadow-sm',
         );
     }
-
-    public function close() : void {
-        $this->reset();
-        $this->createIsOpen = false;
-        $this->dispatch("close-create");
-    }
-
     public function render()
     {
-        return view('livewire.pages.internal.partner.create');
+        return view('livewire.pages.internal.partner.edit');
     }
 }

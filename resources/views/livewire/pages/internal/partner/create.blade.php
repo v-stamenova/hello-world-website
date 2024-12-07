@@ -2,6 +2,7 @@
     <x-mary-modal box-class="gap-0 w-screen max-w-screen-lg" wire:model="createIsOpen"
                   title="Add a new partner"
                   subtitle="Collaborating with a company or another association? Add them here."
+                  persistent
                   >
         <x-mary-form class="w-full grid gap-6 items-start auto-rows-min relative" wire:submit.prevent="save">
             <div class="grid gap-3">
@@ -28,8 +29,9 @@
                     <x-mary-input wire:model="type" hint="E.g. sponsor, association"/>
                 </div>
                 <div>
+                    <!-- TODO: Figure out why image persists between refreshes and how to fix it -->
                     <x-mary-file hideProgress="true" wire:model="logo" label="Logo" hint="Only images" crop-after-change accept="image/jpeg, image/png, image/gif, image/webp, image/bmp" >
-                        <img alt="Placeholder" src="https://placehold.co/600x400" class="h-40 rounded-lg" />
+                        <img alt="Placeholder" src="{{$logo_path ? asset('storage/' . $this->logo_path) : config('app.fallback_image_url')}}" class="h-40 rounded-lg" />
                     </x-mary-file>
                 </div>
                 <p class="text-lg font-semibold text-gray-700">
@@ -57,11 +59,9 @@
             </div>
 
             <x-slot:actions>
-                <x-mary-button label="Cancel" @click="$wire.myModal2 = false" />
+                <x-mary-button label="Cancel" type="button" wire:click="close" />
                 <x-mary-button label="Confirm" class="btn-primary" type="submit" spinner="save" />
             </x-slot:actions>
         </x-mary-form>
     </x-mary-modal>
-
-    <x-mary-button label="Add partner" @click="$wire.createIsOpen = true" />
 </div>

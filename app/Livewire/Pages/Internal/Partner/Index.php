@@ -48,4 +48,12 @@ class Index extends Component
 
         return view('livewire.pages.internal.partner.index', compact('partners'));
     }
+
+    public function openEdit(int $partnerId) {
+        $this->dispatch('open-edit', partnerId: $partnerId);
+    }
+
+    public function openCreate() {
+        $this->dispatch('open-create');
+    }
 }

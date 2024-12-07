@@ -2,8 +2,6 @@
 
 namespace App\Enums;
 
-use App\Models\Partner;
-
 enum Status: string
 {
     case DRAFT = 'draft';

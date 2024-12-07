@@ -30,4 +30,20 @@ class PartnerService
 
         return Partner::create($validator->validated());
     }
+
+    public function getPartner(int $partnerId): Partner {
+        return Partner::query()->findOrFail($partnerId);
+    }
+
+    public function updatePartner(int $partnerId, array $data): bool
+    {
+        $validator = Validator::make($data, Partner::validationRulesUpdate());
+
+        if ($validator->fails()) {
+            throw new ValidationException($validator);
+        }
+        $partner = $this->getPartner($partnerId);
+
+        return $partner->update($validator->validated());
+    }
 }
