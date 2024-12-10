@@ -36,7 +36,7 @@
             </label>
 
             {{-- Brand --}}
-            <div>Hello World</div>
+            <div>Student Association "Hello World"</div>
         </x-slot:brand>
 
         {{-- Right side actions --}}

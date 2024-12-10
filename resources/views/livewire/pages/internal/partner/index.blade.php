@@ -14,6 +14,7 @@
     <div class="mt-5">
         <x-mary-table :headers="$headers" :rows="$partners" :sort-by="$sortBy">
             @scope('cell_actions', $partner)
+                <x-mary-button class="btn-xs" icon="o-eye" wire:click="openView({{$partner->id}})" tooltip="Preview"/>
                 <x-mary-button class="btn-xs" icon="o-pencil" wire:click="openEdit({{$partner->id}})" tooltip="Edit"/>
                 <x-mary-button class="btn-xs" icon="o-trash" wire:click="openDelete({{ $partner->id }})" tooltip="Remove" />
             @endscope
@@ -26,6 +27,7 @@
         <livewire:pages.internal.partner.edit/>
         <livewire:pages.internal.partner.create/>
         <livewire:pages.internal.partner.delete/>
+        <livewire:pages.internal.partner.view/>
         {{--
                 <livewire:pages.internal.partner.changeLogo />
         --}}

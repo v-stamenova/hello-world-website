@@ -60,4 +60,8 @@ class Index extends Component
     public function openDelete(int $partnerId) {
         $this->dispatch('open-delete', partnerId: $partnerId);
     }
+
+    public function openView(int $partnerId) {
+        $this->dispatch('open-view', partnerId: $partnerId);
+    }
 }
