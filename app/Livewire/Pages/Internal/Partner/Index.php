@@ -44,20 +44,4 @@ class Index extends Component
 
         return view('livewire.pages.internal.partner.index', compact('partners'));
     }
-
-    public function openEdit(int $partnerId) {
-        $this->dispatch('open-edit', partnerId: $partnerId);
-    }
-
-    public function openCreate() {
-        $this->dispatch('open-create');
-    }
-
-    public function openDelete(int $partnerId) {
-        $this->dispatch('open-delete', partnerId: $partnerId);
-    }
-
-    public function openView(int $partnerId) {
-        $this->dispatch('open-view', partnerId: $partnerId);
-    }
 }

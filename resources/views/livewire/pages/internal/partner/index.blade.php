@@ -4,7 +4,7 @@
         <h2 class="text-2xl font-bold text-primary-content sm:truncate sm:text-3xl sm:tracking-tight">
             Partners
         </h2>
-        <x-mary-button label="Add partner" wire:click="openCreate()"/>
+        <x-mary-button label="Add partner" @click="$dispatch('open-create')"/>
     </div>
 
     <div class="mt-5">
@@ -14,9 +14,9 @@
     <div class="mt-5">
         <x-mary-table :headers="$headers" :rows="$partners" :sort-by="$sortBy">
             @scope('cell_actions', $partner)
-                <x-mary-button class="btn-xs" icon="o-eye" wire:click="openView({{$partner->id}})" tooltip="Preview"/>
-                <x-mary-button class="btn-xs" icon="o-pencil" wire:click="openEdit({{$partner->id}})" tooltip="Edit"/>
-                <x-mary-button class="btn-xs" icon="o-trash" wire:click="openDelete({{ $partner->id }})" tooltip="Remove" />
+                <x-mary-button class="btn-xs" icon="o-eye" @click="$dispatch('open-view', { partnerId: {{$partner->id}} })" tooltip="Preview"/>
+                <x-mary-button class="btn-xs" icon="o-pencil" @click="$dispatch('open-edit', { partnerId: {{$partner->id}} })" tooltip="Edit"/>
+                <x-mary-button class="btn-xs" icon="o-trash" @click="$dispatch('open-delete', { partnerId: {{$partner->id}} })" tooltip="Remove" />
             @endscope
 
             <x-slot:empty>
