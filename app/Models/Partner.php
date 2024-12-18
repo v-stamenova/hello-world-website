@@ -52,30 +52,24 @@ class Partner extends Model
     public static function validationRulesCreation(): array
     {
         return [
-            'name' => 'required|string|max:255|regex:/^[\pL\s\-]+$/u',
+            'name' => 'required|string|max:255|regex:/^[\pL\s\-.]+$/u',
             'description' => 'required|string|max:1000',
             'website' => 'required|regex:/^www\.[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/|max:255',
             'type' => 'required|string',
             'email' => 'required|email|max:255',
             'phone_number' => 'nullable|string|regex:/^\+?[0-9]{11,14}$/',
-            'contact_person' => 'nullable|string|max:255|regex:/^[\pL\s\-]+$/u',
+            'contact_person' => 'nullable|string|max:255|regex:/^[\pL\s\-.]+$/u',
             'status' => 'required|string|in:' . implode(',', array_map(fn($case) => $case->value, Status::cases())),
             'logo_path' => ['nullable', 'string', 'max:255', Rule::notIn([config('app.fallback_image_url')])],
         ];
     }
 
+    /**
+     * Left for architecture style reference
+     * @return array
+     */
     public static function validationRulesUpdate(): array
     {
-        return [
-            'name' => 'required|string|max:255|regex:/^[\pL\s\-]+$/u',
-            'description' => 'required|string|max:1000',
-            'website' => 'required|regex:/^www\.[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/|max:255',
-            'type' => 'required|string',
-            'email' => 'required|email|max:255',
-            'phone_number' => 'nullable|string|regex:/^\+?[0-9]{11,14}$/',
-            'contact_person' => 'nullable|string|max:255|regex:/^[\pL\s\-]+$/u',
-            'status' => 'required|string|in:' . implode(',', array_map(fn($case) => $case->value, Status::cases())),
-            'logo_path' => ['nullable', 'string', 'max:255', Rule::notIn([config('app.fallback_image_url')])],
-        ];
+        return Partner::validationRulesCreation();
     }
 }
