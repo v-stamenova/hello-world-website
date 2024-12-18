@@ -1,5 +1,5 @@
 <div>
-    <x-mary-modal box-class="gap-0 w-screen max-w-screen-lg" wire:model="isEditOpen" persistent
+    <x-mary-modal box-class="gap-0 w-screen max-w-screen-lg" wire:model="isEditOpen"
                   title="Edit a new partner"
                   subtitle="Collaborating with a company or another association? Add them here. {{$partnerId}}"
     >
@@ -30,9 +30,22 @@
                     </div>
                     <div>
                         <x-mary-file hideProgress="true" wire:model="logo" label="Logo" hint="Only images" crop-after-change accept="image/jpeg, image/png, image/gif, image/webp, image/bmp" >
-                            <img alt="Placeholder" src="{{$logo_path ? asset('storage/' . $this->logo_path) : config('app.fallback_image_url')}}" class="h-40 rounded-lg" />
+                            <img
+                                x-data="{
+                                    logoPath: @entangle('logo_path'),
+                                    defaultPath: '{{ config('app.fallback_image_url') }}'
+                                }"
+                                x-effect="
+                                    const resolvedPath = logoPath ? '{{ asset('storage') . '/' }}' + logoPath : defaultPath;
+                                    if ($el.src !== resolvedPath) {
+                                        $el.src = resolvedPath;
+                                    }
+                                "
+                                :src="logoPath"
+                                alt="Logo"
+                                class="h-40 rounded-lg"
+                            />
                         </x-mary-file>
-                        <p>{{$logo_path}}</p>
                     </div>
                     <p class="text-lg font-semibold text-gray-700">
                         Contact information

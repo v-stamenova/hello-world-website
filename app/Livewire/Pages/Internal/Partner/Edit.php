@@ -14,7 +14,6 @@ use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Livewire\WithFileUploads;
 use Mary\Traits\Toast;
 
-#[On('edit-opened')]
 class Edit extends Component
 {
     use Toast;
@@ -97,13 +96,6 @@ class Edit extends Component
         $this->logo_path = $this->partner->logo_path ?? '';
 
         $this->isEditOpen = true;
-        $this->dispatch('edit-opened');
-    }
-
-    public function close() : void {
-        $this->isEditOpen = false;
-        $this->reset();
-        $this->render();
     }
 
     public function cleanUpSuccessfully() : void {
@@ -118,6 +110,7 @@ class Edit extends Component
             css: 'text-sm bg-green-50 border border-green-800 text-green-800 shadow-sm',
         );
     }
+
     public function render()
     {
         return view('livewire.pages.internal.partner.edit');

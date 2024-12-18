@@ -13,8 +13,6 @@ use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Livewire\WithFileUploads;
 use Mary\Traits\Toast;
 
-#[On('open-create')]
-#[On('close-create')]
 class Create extends Component
 {
     use Toast;
@@ -36,7 +34,7 @@ class Create extends Component
     public string $type;
     public string $website;
 
-    public bool $createIsOpen = false;
+    public bool $isCreateOpen = false;
     private PartnerService $partnerService;
 
     public function boot(PartnerService $partnerService): void {
@@ -46,12 +44,13 @@ class Create extends Component
     #[On('open-create')]
     public function setUpModal()
     {
-        $this->logo = null;
-        $this->logo_path = null;
-        $this->dispatch('$refresh');
+        $this->reset();
+        $this->logo_path = '';
+        $this->resetErrorBag();
+        $this->render();
 
         $this->availableStatuses = EnumHelper::getStatuses();
-        $this->createIsOpen = true;
+        $this->isCreateOpen = true;
     }
 
     public function save() : void {
@@ -94,7 +93,7 @@ class Create extends Component
         $this->dispatch("update-partners-list");
         $this->reset();
 
-        $this->createIsOpen = false;
+        $this->isCreateOpen = false;
 
         $this->toast(
             type: 'success',
@@ -102,12 +101,6 @@ class Create extends Component
             icon: 'o-check-circle',
             css: 'text-sm bg-green-50 border border-green-800 text-green-800 shadow-sm',
         );
-    }
-
-    public function close() : void {
-        $this->reset();
-        $this->createIsOpen = false;
-        $this->dispatch("close-create");
     }
 
     public function render()
