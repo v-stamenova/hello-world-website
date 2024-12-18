@@ -23,6 +23,8 @@ class PartnerFactory extends Factory
             'email' => $this->faker->unique()->companyEmail,
             'phone_number' => $this->faker->optional()->phoneNumber,
             'type' => 'sponsor',
+            'contact_person' => $this->faker->name,
+            'deleted_at' => null,
             'logo_path' => $this->faker->optional()->imageUrl(100, 100, 'business', true, 'logo'),
             'status' => 'hidden',
         ];

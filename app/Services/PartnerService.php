@@ -32,7 +32,7 @@ class PartnerService
     }
 
     public function getPartner(int $partnerId): Partner {
-        return Partner::query()->findOrFail($partnerId);
+        return Partner::findOrFail($partnerId);
     }
 
     public function updatePartner(int $partnerId, array $data): bool
