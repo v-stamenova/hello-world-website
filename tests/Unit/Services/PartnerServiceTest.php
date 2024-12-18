@@ -30,7 +30,7 @@ class PartnerServiceTest extends TestCase
         Partner::factory()->count(1)->create(['name' => 'Algae']);
         Partner::factory()->count(1)->create(['name' => 'Gamma']);
 
-        $sortBy = ['name', 'asc'];
+        $sortBy = ['column' => 'name', 'direction' => 'asc'];
         $filter = 'Al';
 
         $result = $this->partnerService->getPartnersSortedAndFiltered($sortBy, $filter);
@@ -62,7 +62,7 @@ class PartnerServiceTest extends TestCase
         Partner::factory()->count(1)->create(['name' => 'Beta']);
         Partner::factory()->count(1)->create(['name' => 'Gamma']);
 
-        $sortBy = ['name', 'asc'];
+        $sortBy = ['column' => 'name', 'direction' => 'asc'];
 
         $result = $this->partnerService->getPartnersSortedAndFiltered($sortBy);
 
