@@ -3,7 +3,6 @@
 namespace App\Livewire\Pages\Internal\Partner;
 
 use App\Enums\EnumHelper;
-use App\Enums\Status;
 use App\Models\Partner;
 use App\Services\PartnerService;
 use App\Traits\FileValidation;
@@ -18,9 +17,9 @@ use Mary\Traits\Toast;
 
 class Edit extends Component
 {
+    use FileValidation;
     use Toast;
     use WithFileUploads;
-    use FileValidation;
 
     /**
      * @var array<int, array{display: string, value: string}>
@@ -28,26 +27,40 @@ class Edit extends Component
     public array $availableStatuses = [];
 
     public string $contact_person;
+
     public string $description;
+
     public string $email;
+
     public ?TemporaryUploadedFile $logo = null;
+
     public string $logo_path = '';
+
     public string $name;
+
     public string $phone_number;
+
     public string $status;
+
     public string $type;
+
     public string $website;
+
     public bool $isEditOpen = false;
 
     public Partner $partner;
+
     public int $partnerId;
+
     private PartnerService $partnerService;
 
-    public function boot(PartnerService $partnerService): void {
+    public function boot(PartnerService $partnerService): void
+    {
         $this->partnerService = $partnerService;
     }
 
-    public function save() : void {
+    public function save(): void
+    {
         $data = $this->validate(
             array_merge(
                 Partner::validationRulesUpdate(),
@@ -56,7 +69,7 @@ class Edit extends Component
                         'nullable',
                         'image',
                         'max:10240',
-                    ]
+                    ],
                 ]
             ),
             [
@@ -65,7 +78,7 @@ class Edit extends Component
         );
 
         try {
-            if($this->logo !== null) {
+            if ($this->logo !== null) {
                 $this->validateFileNameLength($this->logo, 'logo'); // @phpstan-ignore-next-line false positive
                 $this->logo_path = $this->logo->store('logos', 'public') ?: '';
             }
@@ -75,13 +88,14 @@ class Edit extends Component
         } catch (Exception $exception) {
             $this->error(
                 title: 'Oops! An error occurred',
-                description: substr($exception->getMessage(), 0, 100) . '...'
+                description: substr($exception->getMessage(), 0, 100).'...'
             );
         }
     }
 
     #[On('open-edit')]
-    public function setUpModal(int $partnerId) : void {
+    public function setUpModal(int $partnerId): void
+    {
         $this->reset();
 
         $this->partnerId = $partnerId;
@@ -101,8 +115,9 @@ class Edit extends Component
         $this->isEditOpen = true;
     }
 
-    public function cleanUpSuccessfully() : void {
-        $this->dispatch("update-partners-list");
+    public function cleanUpSuccessfully(): void
+    {
+        $this->dispatch('update-partners-list');
         $this->reset();
         $this->isEditOpen = false;
         $this->render();
@@ -114,7 +129,7 @@ class Edit extends Component
         );
     }
 
-    public function render() : Factory|\Illuminate\Contracts\View\View|Application
+    public function render(): Factory|\Illuminate\Contracts\View\View|Application
     {
         return view('livewire.pages.internal.partner.edit');
     }

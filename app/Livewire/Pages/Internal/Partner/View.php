@@ -13,29 +13,35 @@ use Livewire\Component;
 class View extends Component
 {
     public bool $viewIsOpen = false;
+
     public int $partnerId;
+
     public Partner $partner;
+
     private PartnerService $partnerService;
 
-    public function boot(PartnerService $partnerService): void{
+    public function boot(PartnerService $partnerService): void
+    {
         $this->partnerService = $partnerService;
     }
 
     #[On('open-view')]
-    public function setUpModal(int $partnerId) : void {
+    public function setUpModal(int $partnerId): void
+    {
         $this->reset();
         $this->partnerId = $partnerId;
         $this->partner = $this->partnerService->getPartner($partnerId);
         $this->viewIsOpen = true;
     }
 
-    public function close() : void {
+    public function close(): void
+    {
         $this->viewIsOpen = false;
         $this->reset();
         $this->render();
     }
 
-    public function render() : Factory|\Illuminate\Contracts\View\View|Application
+    public function render(): Factory|\Illuminate\Contracts\View\View|Application
     {
         return view('livewire.pages.internal.partner.view');
     }

@@ -10,8 +10,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\Rule;
 
 /**
- * 
- *
  * @property int $id
  * @property string $name
  * @property string $description
@@ -24,6 +22,7 @@ use Illuminate\Validation\Rule;
  * @property string $status
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ *
  * @method static PartnerFactory factory($count = null, $state = [])
  * @method static Builder<static>|Partner newModelQuery()
  * @method static Builder<static>|Partner newQuery()
@@ -40,8 +39,11 @@ use Illuminate\Validation\Rule;
  * @method static Builder<static>|Partner whereUpdatedAt($value)
  * @method static Builder<static>|Partner whereWebsite($value)
  * @method static Builder<static>|Partner whereStatus($value)
+ *
  * @property string|null $deleted_at
+ *
  * @method static Builder<static>|Partner wherePhoneNumber($value)
+ *
  * @mixin \Eloquent
  */
 class Partner extends Model
@@ -64,7 +66,7 @@ class Partner extends Model
             'email' => 'required|email|max:255',
             'phone_number' => 'nullable|string|regex:/^\+?[0-9]{11,14}$/',
             'contact_person' => 'nullable|string|max:255|regex:/^[\pL\s\-.]+$/u',
-            'status' => 'required|string|in:' . implode(',', array_map(fn($case) => $case->value, Status::cases())),
+            'status' => 'required|string|in:'.implode(',', array_map(fn ($case) => $case->value, Status::cases())),
             'logo_path' => ['nullable', 'string', 'max:255', Rule::notIn([config('app.fallback_image_url')])],
         ];
     }

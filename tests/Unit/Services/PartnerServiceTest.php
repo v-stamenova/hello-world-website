@@ -91,11 +91,11 @@ class PartnerServiceTest extends TestCase
         try {
             $partner = $this->partnerService->createPartner($data);
         } catch (ValidationException $e) {
-            $this->fail("ValidationException thrown: " . $e->getMessage());
+            $this->fail('ValidationException thrown: '.$e->getMessage());
         }
 
-        $this->assertNotNull($partner, "Partner should not be null.");
-        $this->assertInstanceOf(Partner::class, $partner, "Created object should be an instance of Partner.");
+        $this->assertNotNull($partner, 'Partner should not be null.');
+        $this->assertInstanceOf(Partner::class, $partner, 'Created object should be an instance of Partner.');
         $this->assertEquals(1, Partner::all()->count());
         $this->assertEquals($data['name'], $partner->name);
         $this->assertEquals($data['description'], $partner->description);
@@ -124,11 +124,11 @@ class PartnerServiceTest extends TestCase
         try {
             $partner = $this->partnerService->createPartner($data);
         } catch (ValidationException $e) {
-            $this->fail("ValidationException thrown: " . $e->getMessage());
+            $this->fail('ValidationException thrown: '.$e->getMessage());
         }
 
-        $this->assertNotNull($partner, "Partner should not be null.");
-        $this->assertInstanceOf(Partner::class, $partner, "Created object should be an instance of Partner.");
+        $this->assertNotNull($partner, 'Partner should not be null.');
+        $this->assertInstanceOf(Partner::class, $partner, 'Created object should be an instance of Partner.');
         $this->assertEquals(1, Partner::all()->count());
         $this->assertEquals($data['name'], $partner->name);
         $this->assertEquals($data['description'], $partner->description);
@@ -294,9 +294,9 @@ class PartnerServiceTest extends TestCase
 
         $foundPartner = $this->partnerService->getPartner($partners[0]->id);
 
-        $this->assertNotNull($foundPartner, "Partner should not be null.");
-        $this->assertInstanceOf(Partner::class, $foundPartner, "Created object should be an instance of Partner.");
-        $this->assertEquals($partners[0]->toArray(), $foundPartner->toArray(), "Partner attributes should match.");
+        $this->assertNotNull($foundPartner, 'Partner should not be null.');
+        $this->assertInstanceOf(Partner::class, $foundPartner, 'Created object should be an instance of Partner.');
+        $this->assertEquals($partners[0]->toArray(), $foundPartner->toArray(), 'Partner attributes should match.');
     }
 
     #[Test]
@@ -328,7 +328,7 @@ class PartnerServiceTest extends TestCase
         try {
             $isUpdated = $this->partnerService->updatePartner($partners[0]->id, $data);
         } catch (ValidationException $e) {
-            $this->fail("ValidationException thrown: " . $e->getMessage());
+            $this->fail('ValidationException thrown: '.$e->getMessage());
         }
 
         $partner = Partner::findOrFail($partners[0]->id);

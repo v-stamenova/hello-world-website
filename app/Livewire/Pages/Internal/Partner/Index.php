@@ -27,7 +27,7 @@ class Index extends Component
         ['key' => 'name', 'label' => 'Name', 'class' => 'text-primary-content text-sm'],
         ['key' => 'type', 'label' => 'Type', 'class' => 'text-primary-content text-sm'],
         ['key' => 'created_at', 'label' => 'Date of creation', 'class' => 'text-primary-content text-sm'],
-        ['key' => 'actions', 'label' => 'Actions', 'class' => 'text-primary-content text-sm']
+        ['key' => 'actions', 'label' => 'Actions', 'class' => 'text-primary-content text-sm'],
     ];
 
     /**
@@ -37,15 +37,16 @@ class Index extends Component
 
     public string $search = '';
 
-    public function boot(PartnerService $partnerService) : void
+    public function boot(PartnerService $partnerService): void
     {
         $this->partnerService = $partnerService;
     }
 
-    #[On("update-partners-list")]
-    public function render() : Factory|\Illuminate\Contracts\View\View|Application
+    #[On('update-partners-list')]
+    public function render(): Factory|\Illuminate\Contracts\View\View|Application
     {
         $partners = $this->partnerService->getPartnersSortedAndFiltered($this->sortBy, $this->search);
+
         return view('livewire.pages.internal.partner.index', compact('partners'));
     }
 }

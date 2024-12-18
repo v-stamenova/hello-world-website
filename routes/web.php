@@ -1,4 +1,5 @@
 <?php
+
 use App\Livewire\Pages\Internal\Partner as Partner;
 use Illuminate\Support\Facades\Route;
 

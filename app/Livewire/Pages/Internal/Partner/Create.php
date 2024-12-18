@@ -17,9 +17,9 @@ use Mary\Traits\Toast;
 
 class Create extends Component
 {
+    use FileValidation;
     use Toast;
     use WithFileUploads;
-    use FileValidation;
 
     /**
      * @var array<int, array{display: string, value: string}>
@@ -27,25 +27,36 @@ class Create extends Component
     public array $availableStatuses = [];
 
     public string $contact_person;
+
     public string $description;
+
     public string $email;
+
     public ?TemporaryUploadedFile $logo = null;
+
     public ?string $logo_path = '';
+
     public string $name;
+
     public string $phone_number;
+
     public string $status;
+
     public string $type;
+
     public string $website;
 
     public bool $isCreateOpen = false;
+
     private PartnerService $partnerService;
 
-    public function boot(PartnerService $partnerService): void {
+    public function boot(PartnerService $partnerService): void
+    {
         $this->partnerService = $partnerService;
     }
 
     #[On('open-create')]
-    public function setUpModal() : void
+    public function setUpModal(): void
     {
         $this->reset();
         $this->logo_path = '';
@@ -56,7 +67,8 @@ class Create extends Component
         $this->isCreateOpen = true;
     }
 
-    public function save() : void {
+    public function save(): void
+    {
         $data = $this->validate(
             array_merge(
                 Partner::validationRulesCreation(),
@@ -65,7 +77,7 @@ class Create extends Component
                         'nullable',
                         'image',
                         'max:10240',
-                    ]
+                    ],
                 ]
             ),
             [
@@ -77,7 +89,7 @@ class Create extends Component
         $this->dispatch('close-create');
 
         try {
-            if($this->logo !== null) {
+            if ($this->logo !== null) {
                 $this->validateFileNameLength($this->logo, 'logo'); // @phpstan-ignore-next-line false positive
                 $this->logo_path = $this->logo->store('logos', 'public') ?: null;
             }
@@ -87,13 +99,14 @@ class Create extends Component
         } catch (Exception $exception) {
             $this->error(
                 title: 'Oops! An error occurred',
-                description: substr($exception->getMessage(), 0, 100) . '...'
+                description: substr($exception->getMessage(), 0, 100).'...'
             );
         }
     }
 
-    public function cleanUpSuccessfully() : void {
-        $this->dispatch("update-partners-list");
+    public function cleanUpSuccessfully(): void
+    {
+        $this->dispatch('update-partners-list');
         $this->reset();
 
         $this->isCreateOpen = false;
@@ -106,7 +119,7 @@ class Create extends Component
         );
     }
 
-    public function render() : Factory|\Illuminate\Contracts\View\View|Application
+    public function render(): Factory|\Illuminate\Contracts\View\View|Application
     {
         return view('livewire.pages.internal.partner.create');
     }

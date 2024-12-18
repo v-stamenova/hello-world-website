@@ -11,23 +11,23 @@ use Illuminate\Validation\ValidationException;
 class PartnerService
 {
     /**
-     * @param array{column: string, direction: string}|null $sortBy
+     * @param  array{column: string, direction: string}|null  $sortBy
      * @return Collection<int, Partner>
      */
     public function getPartnersSortedAndFiltered(?array $sortBy = null, string $filter = ''): Collection
     {
         return Partner::query()
-            ->when($filter, fn(Builder $query) => $query->where('name', 'like', "%$filter%"))
+            ->when($filter, fn (Builder $query) => $query->where('name', 'like', "%$filter%"))
             ->when(
                 $sortBy !== null, // @phpstan-ignore-next-line false positive
-                fn(Builder $query) => $query->orderBy($sortBy['column'], $sortBy['direction']),
-                fn(Builder $query) => $query->orderBy('created_at', 'desc')
+                fn (Builder $query) => $query->orderBy($sortBy['column'], $sortBy['direction']),
+                fn (Builder $query) => $query->orderBy('created_at', 'desc')
             )
             ->get();
     }
 
     /**
-     * @param non-empty-array<string, mixed> $data
+     * @param  non-empty-array<string, mixed>  $data
      */
     public function createPartner(array $data): Partner
     {
@@ -40,12 +40,13 @@ class PartnerService
         return Partner::create($validator->validated());
     }
 
-    public function getPartner(int $partnerId): Partner {
+    public function getPartner(int $partnerId): Partner
+    {
         return Partner::findOrFail($partnerId);
     }
 
     /**
-     * @param non-empty-array<string, mixed> $data
+     * @param  non-empty-array<string, mixed>  $data
      */
     public function updatePartner(int $partnerId, array $data): bool
     {
