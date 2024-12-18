@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\Rule;
 
 /**
- *
+ * 
  *
  * @property int $id
  * @property string $name
@@ -40,6 +40,8 @@ use Illuminate\Validation\Rule;
  * @method static Builder<static>|Partner whereUpdatedAt($value)
  * @method static Builder<static>|Partner whereWebsite($value)
  * @method static Builder<static>|Partner whereStatus($value)
+ * @property string|null $deleted_at
+ * @method static Builder<static>|Partner wherePhoneNumber($value)
  * @mixin \Eloquent
  */
 class Partner extends Model

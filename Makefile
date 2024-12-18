@@ -18,5 +18,12 @@ phpunit:
 	@echo "=============Running PHPUnit============="
 	./vendor/bin/sail phpunit
 
+# Generate the documentation for the models
+docs:
+	@echo "=============Generating documentation for models============="
+	./vendor/bin/sail artisan ide-helper:models --write
+
 # Run both Pint and PHPStan checks
 check: pint-test phpstan phpunit
+
+# TODO: Add model documentation fast command
