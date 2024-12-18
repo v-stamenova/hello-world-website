@@ -1,8 +1,7 @@
 <div>
     <x-mary-modal box-class="gap-0 w-screen max-w-screen-lg" wire:model="viewIsOpen"
                   title="Partner Details"
-                  subtitle="Detailed information about the selected partner."
-                  persistent>
+                  subtitle="Detailed information about the selected partner.">
         <div class="w-full grid gap-6 items-start auto-rows-min relative">
             @if($partner)
                 <div class="grid gap-3">

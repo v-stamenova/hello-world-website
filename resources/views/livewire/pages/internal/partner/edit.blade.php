@@ -21,11 +21,11 @@
                                          inline />
                     </div>
                     <div>
-                        <label class="pt-0 label label-text font-semibold inline-flex">Website</label>
+                        <label class="label label-text font-semibold inline-flex after:content-['*'] after:text-red-500 after:ml-1">Website</label>
                         <x-mary-input wire:model="website" prefix="https://"/>
                     </div>
                     <div>
-                        <label class="pt-0 label label-text font-semibold inline-flex">Type</label>
+                        <label class="label label-text font-semibold inline-flex after:content-['*'] after:text-red-500 after:ml-1">Type</label>
                         <x-mary-input wire:model="type" hint="E.g. sponsor, association"/>
                     </div>
                     <div>
@@ -55,7 +55,7 @@
                         <x-mary-input wire:model="contact_person"/>
                     </div>
                     <div>
-                        <label class="pt-0 label label-text font-semibold inline-flex">Email</label>
+                        <label class="label label-text font-semibold inline-flex after:content-['*'] after:text-red-500 after:ml-1">Email</label>
                         <x-mary-input wire:model="email"/>
                     </div>
                     <div>
@@ -66,7 +66,7 @@
                         Publishing status
                     </p>
                     <div>
-                        <label class="pt-0 label label-text font-semibold inline-flex">Status</label>
+                        <label class="label label-text font-semibold inline-flex after:content-['*'] after:text-red-500 after:ml-1">Status</label>
                         <x-mary-select :options="$availableStatuses" option-label="display" option-value="value" wire:model="status"/>
                     </div>
                 </div>
