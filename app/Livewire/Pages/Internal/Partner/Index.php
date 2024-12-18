@@ -32,19 +32,15 @@ class Index extends Component
 
     public string $search = '';
 
-    public function mount(
-      PartnerService $partnerService,
-    ){
+    public function boot(PartnerService $partnerService)
+    {
         $this->partnerService = $partnerService;
     }
 
     #[On("update-partners-list")]
     public function render()
     {
-        $partners = Partner::query()
-            ->when($this->search, fn(Builder $q) => $q->where('name', 'like', "%$this->search%"))
-            ->orderBy(...array_values($this->sortBy))
-            ->get();
+        $partners = $this->partnerService->getPartnersSortedAndFiltered($this->sortBy, $this->search);
 
         return view('livewire.pages.internal.partner.index', compact('partners'));
     }

@@ -24,6 +24,54 @@ class PartnerServiceTest extends TestCase
     }
 
     #[Test]
+    public function testGetPartnersSortedAndFiltered()
+    {
+        Partner::factory()->count(1)->create(['name' => 'Alpha']);
+        Partner::factory()->count(1)->create(['name' => 'Algae']);
+        Partner::factory()->count(1)->create(['name' => 'Gamma']);
+
+        $sortBy = ['name', 'asc'];
+        $filter = 'Al';
+
+        $result = $this->partnerService->getPartnersSortedAndFiltered($sortBy, $filter);
+
+        $this->assertCount(2, $result);
+        $sortedNames = $result->pluck('name')->toArray();
+        $this->assertEquals(['Algae', 'Alpha'], $sortedNames);
+    }
+
+    #[Test]
+    public function testGetPartnersSortedAndFilteredWithFilterWithoutSort()
+    {
+        Partner::factory()->count(1)->create(['name' => 'Alpha']);
+        Partner::factory()->count(1)->create(['name' => 'Beta']);
+        Partner::factory()->count(1)->create(['name' => 'Gamma']);
+
+        $filter = 'Alpha';
+
+        $result = $this->partnerService->getPartnersSortedAndFiltered(filter: $filter);
+
+        $this->assertCount(1, $result);
+        $this->assertEquals('Alpha', $result->first()->name);
+    }
+
+    #[Test]
+    public function testGetPartnersSortedAndFilteredWithoutFilter()
+    {
+        Partner::factory()->count(1)->create(['name' => 'Alpha']);
+        Partner::factory()->count(1)->create(['name' => 'Beta']);
+        Partner::factory()->count(1)->create(['name' => 'Gamma']);
+
+        $sortBy = ['name', 'asc'];
+
+        $result = $this->partnerService->getPartnersSortedAndFiltered($sortBy);
+
+        $this->assertCount(3, $result);
+        $sortedNames = $result->pluck('name')->toArray();
+        $this->assertEquals(['Alpha', 'Beta', 'Gamma'], $sortedNames);
+    }
+
+    #[Test]
     public function testCreatePartnerSuccessfullyWithAllDetails()
     {
         $data = [

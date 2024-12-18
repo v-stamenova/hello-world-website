@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Partner;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
@@ -11,12 +12,17 @@ class PartnerService
 {
     /**
      * @param array $sortBy The columns to sort by.
-     * @return Collection
+     * @return Collection<Partner>
      */
-    public function getPartnersSorted(array $sortBy = []): Collection
+    public function getPartnersSortedAndFiltered(array $sortBy = [], string $filter = ''): Collection
     {
         return Partner::query()
-            ->orderBy(...array_values($sortBy))
+            ->when($filter, fn(Builder $query) => $query->where('name', 'like', "%$filter%"))
+            ->when(
+                !empty($sortBy),
+                fn(Builder $query) => $query->orderBy(...array_values($sortBy)),
+                fn(Builder $query) => $query->orderBy('created_at', 'desc')
+            )
             ->get();
     }
 
