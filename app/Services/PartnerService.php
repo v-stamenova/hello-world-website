@@ -11,21 +11,24 @@ use Illuminate\Validation\ValidationException;
 class PartnerService
 {
     /**
-     * @param array $sortBy The columns to sort by.
-     * @return Collection<Partner>
+     * @param array{column: string, direction: string}|null $sortBy
+     * @return Collection<int, Partner>
      */
-    public function getPartnersSortedAndFiltered(array $sortBy = [], string $filter = ''): Collection
+    public function getPartnersSortedAndFiltered(?array $sortBy = null, string $filter = ''): Collection
     {
         return Partner::query()
             ->when($filter, fn(Builder $query) => $query->where('name', 'like', "%$filter%"))
             ->when(
-                !empty($sortBy),
-                fn(Builder $query) => $query->orderBy(...array_values($sortBy)),
+                $sortBy !== null, // @phpstan-ignore-next-line false positive
+                fn(Builder $query) => $query->orderBy($sortBy['column'], $sortBy['direction']),
                 fn(Builder $query) => $query->orderBy('created_at', 'desc')
             )
             ->get();
     }
 
+    /**
+     * @param non-empty-array<string, mixed> $data
+     */
     public function createPartner(array $data): Partner
     {
         $validator = Validator::make($data, Partner::validationRulesCreation());
@@ -41,6 +44,9 @@ class PartnerService
         return Partner::findOrFail($partnerId);
     }
 
+    /**
+     * @param non-empty-array<string, mixed> $data
+     */
     public function updatePartner(int $partnerId, array $data): bool
     {
         $validator = Validator::make($data, Partner::validationRulesUpdate());
@@ -55,6 +61,6 @@ class PartnerService
 
     public function deletePartner(int $partnerId): bool
     {
-        return Partner::query()->findOrFail($partnerId)->delete();
+        return Partner::query()->findOrFail($partnerId)->delete() ?? false;
     }
 }

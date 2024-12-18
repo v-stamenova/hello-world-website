@@ -7,6 +7,8 @@ use App\Models\Partner;
 use App\Services\PartnerService;
 use App\Traits\FileValidation;
 use Exception;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Foundation\Application;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
@@ -20,9 +22,10 @@ class Create extends Component
     use FileValidation;
 
     /**
-     * @availableStatuses string[]
+     * @var array<int, array{display: string, value: string}>
      */
     public array $availableStatuses = [];
+
     public string $contact_person;
     public string $description;
     public string $email;
@@ -42,7 +45,7 @@ class Create extends Component
     }
 
     #[On('open-create')]
-    public function setUpModal()
+    public function setUpModal() : void
     {
         $this->reset();
         $this->logo_path = '';
@@ -74,9 +77,9 @@ class Create extends Component
         $this->dispatch('close-create');
 
         try {
-            if($this->logo) {
-                $this->validateFileNameLength($this->logo, 'logo');
-                $this->logo_path = $this->logo->store('logos', 'public');
+            if($this->logo !== null) {
+                $this->validateFileNameLength($this->logo, 'logo'); // @phpstan-ignore-next-line false positive
+                $this->logo_path = $this->logo->store('logos', 'public') ?: null;
             }
 
             $this->partnerService->createPartner(array_merge($data, ['logo_path' => $this->logo_path]));
@@ -103,7 +106,7 @@ class Create extends Component
         );
     }
 
-    public function render()
+    public function render() : Factory|\Illuminate\Contracts\View\View|Application
     {
         return view('livewire.pages.internal.partner.create');
     }

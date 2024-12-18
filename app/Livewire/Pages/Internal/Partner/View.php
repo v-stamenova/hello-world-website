@@ -4,6 +4,8 @@ namespace App\Livewire\Pages\Internal\Partner;
 
 use App\Models\Partner;
 use App\Services\PartnerService;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Foundation\Application;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
@@ -20,7 +22,7 @@ class View extends Component
     }
 
     #[On('open-view')]
-    public function setUpModal(int $partnerId) {
+    public function setUpModal(int $partnerId) : void {
         $this->reset();
         $this->partnerId = $partnerId;
         $this->partner = $this->partnerService->getPartner($partnerId);
@@ -33,7 +35,7 @@ class View extends Component
         $this->render();
     }
 
-    public function render()
+    public function render() : Factory|\Illuminate\Contracts\View\View|Application
     {
         return view('livewire.pages.internal.partner.view');
     }

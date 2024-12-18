@@ -6,6 +6,8 @@ use App\Enums\EnumHelper;
 use App\Models\Partner;
 use App\Services\PartnerService;
 use Exception;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Foundation\Application;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use Mary\Traits\Toast;
@@ -24,14 +26,14 @@ class Delete extends Component
     }
 
     #[On('open-delete')]
-    public function setUpModal(int $partnerId) {
+    public function setUpModal(int $partnerId) : void {
         $this->reset();
         $this->partnerId = $partnerId;
         $this->partner = $this->partnerService->getPartner($partnerId);
         $this->deleteIsOpen = true;
     }
 
-    public function confirm() {
+    public function confirm(): void {
         try {
             $this->partnerService->deletePartner($this->partnerId);
             $this->cleanUpSuccessfully();
@@ -62,7 +64,7 @@ class Delete extends Component
         );
     }
 
-    public function render()
+    public function render() : Factory|\Illuminate\Contracts\View\View|Application
     {
         return view('livewire.pages.internal.partner.delete');
     }

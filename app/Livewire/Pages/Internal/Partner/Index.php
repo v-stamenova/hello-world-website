@@ -2,10 +2,9 @@
 
 namespace App\Livewire\Pages\Internal\Partner;
 
-use App\Models\Partner;
 use App\Services\PartnerService;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Foundation\Application;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\On;
@@ -20,7 +19,10 @@ class Index extends Component
     #[Locked]
     protected PartnerService $partnerService;
 
-    public $headers = [
+    /**
+     * @var array<int, array{key: string, label: string, class: string}>
+     */
+    public array $headers = [
         ['key' => 'id', 'label' => '#', 'class' => 'text-primary-content text-sm'],
         ['key' => 'name', 'label' => 'Name', 'class' => 'text-primary-content text-sm'],
         ['key' => 'type', 'label' => 'Type', 'class' => 'text-primary-content text-sm'],
@@ -28,20 +30,22 @@ class Index extends Component
         ['key' => 'actions', 'label' => 'Actions', 'class' => 'text-primary-content text-sm']
     ];
 
+    /**
+     * @var array{column: string, direction: string}
+     */
     public array $sortBy = ['column' => 'name', 'direction' => 'asc'];
 
     public string $search = '';
 
-    public function boot(PartnerService $partnerService)
+    public function boot(PartnerService $partnerService) : void
     {
         $this->partnerService = $partnerService;
     }
 
     #[On("update-partners-list")]
-    public function render()
+    public function render() : Factory|\Illuminate\Contracts\View\View|Application
     {
         $partners = $this->partnerService->getPartnersSortedAndFiltered($this->sortBy, $this->search);
-
         return view('livewire.pages.internal.partner.index', compact('partners'));
     }
 }

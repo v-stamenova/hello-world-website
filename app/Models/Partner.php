@@ -49,6 +49,9 @@ class Partner extends Model
 
     protected $fillable = ['name', 'description', 'website', 'type', 'email', 'phone_number', 'contact_person', 'status', 'logo_path'];
 
+    /**
+     * @return array<string, string|array<int, string|Rule>>
+     */
     public static function validationRulesCreation(): array
     {
         return [
@@ -65,8 +68,7 @@ class Partner extends Model
     }
 
     /**
-     * Left for architecture style reference
-     * @return array
+     * @return array<string, string|array<int, string|Rule>>
      */
     public static function validationRulesUpdate(): array
     {
