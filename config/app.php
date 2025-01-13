@@ -123,4 +123,12 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Fallbacks
+    |--------------------------------------------------------------------------
+    |
+    | Manually added fallbacks, so that it is easier to customize and change them
+     */
+    'fallback_image_url' => env('FALLBACK_IMAGE_URL', 'https://placehold.co/600x400'),
 ];
