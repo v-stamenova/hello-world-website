@@ -1,0 +1,10 @@
+roles:
+  - chairman
+
+permissions:
+  partner:
+    viewAny: [ chairman ]
+    view: [ chairman ]
+    create: [ chairman ]
+    update: [ chairman ]
+    delete: [ chairman ]
