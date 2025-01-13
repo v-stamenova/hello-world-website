@@ -24,7 +24,7 @@ class PartnerServiceTest extends TestCase
     }
 
     #[Test]
-    public function testGetPartnersSortedAndFiltered()
+    public function test_get_partners_sorted_and_filtered()
     {
         Partner::factory()->count(1)->create(['name' => 'Alpha']);
         Partner::factory()->count(1)->create(['name' => 'Algae']);
@@ -41,7 +41,7 @@ class PartnerServiceTest extends TestCase
     }
 
     #[Test]
-    public function testGetPartnersSortedAndFilteredWithFilterWithoutSort()
+    public function test_get_partners_sorted_and_filtered_with_filter_without_sort()
     {
         Partner::factory()->count(1)->create(['name' => 'Alpha']);
         Partner::factory()->count(1)->create(['name' => 'Beta']);
@@ -56,7 +56,7 @@ class PartnerServiceTest extends TestCase
     }
 
     #[Test]
-    public function testGetPartnersSortedAndFilteredWithoutFilter()
+    public function test_get_partners_sorted_and_filtered_without_filter()
     {
         Partner::factory()->count(1)->create(['name' => 'Alpha']);
         Partner::factory()->count(1)->create(['name' => 'Beta']);
@@ -72,7 +72,7 @@ class PartnerServiceTest extends TestCase
     }
 
     #[Test]
-    public function testCreatePartnerSuccessfullyWithAllDetails()
+    public function test_create_partner_successfully_with_all_details()
     {
         $data = [
             'name' => 'Example Partner Name',
@@ -108,7 +108,7 @@ class PartnerServiceTest extends TestCase
     }
 
     #[Test]
-    public function testCreatePartnerSuccessfullyWithOnlyRequiredDetails()
+    public function test_create_partner_successfully_with_only_required_details()
     {
         $data = [
             'name' => 'Example Partner Name',
@@ -141,7 +141,7 @@ class PartnerServiceTest extends TestCase
     }
 
     #[Test]
-    public function testCreatePartnerFailsWhenNameIsInvalid()
+    public function test_create_partner_fails_when_name_is_invalid()
     {
         $data = [
             'name' => '',
@@ -162,7 +162,7 @@ class PartnerServiceTest extends TestCase
     }
 
     #[Test]
-    public function testCreatePartnerFailsWhenDescriptionIsInvalid()
+    public function test_create_partner_fails_when_description_is_invalid()
     {
         $data = [
             'name' => 'Valid Name',
@@ -183,7 +183,7 @@ class PartnerServiceTest extends TestCase
     }
 
     #[Test]
-    public function testCreatePartnerFailsWhenWebsiteIsInvalid()
+    public function test_create_partner_fails_when_website_is_invalid()
     {
         $data = [
             'name' => 'Valid Name',
@@ -204,7 +204,7 @@ class PartnerServiceTest extends TestCase
     }
 
     #[Test]
-    public function testCreatePartnerFailsWhenEmailIsInvalid()
+    public function test_create_partner_fails_when_email_is_invalid()
     {
         $data = [
             'name' => 'Valid Name',
@@ -225,7 +225,7 @@ class PartnerServiceTest extends TestCase
     }
 
     #[Test]
-    public function testCreatePartnerFailsWhenPhoneNumberIsInvalid()
+    public function test_create_partner_fails_when_phone_number_is_invalid()
     {
         $data = [
             'name' => 'Valid Name',
@@ -246,7 +246,7 @@ class PartnerServiceTest extends TestCase
     }
 
     #[Test]
-    public function testCreatePartnerFailsWhenStatusIsInvalid()
+    public function test_create_partner_fails_when_status_is_invalid()
     {
         $data = [
             'name' => 'Valid Name',
@@ -267,7 +267,7 @@ class PartnerServiceTest extends TestCase
     }
 
     #[Test]
-    public function testCreatePartnerFailsWhenLogoPathIsInvalid()
+    public function test_create_partner_fails_when_logo_path_is_invalid()
     {
         $data = [
             'name' => 'Valid Name',
@@ -288,7 +288,7 @@ class PartnerServiceTest extends TestCase
     }
 
     #[Test]
-    public function testGetPartnerSuccessfully()
+    public function test_get_partner_successfully()
     {
         $partners = Partner::factory(1)->create();
 
@@ -300,7 +300,7 @@ class PartnerServiceTest extends TestCase
     }
 
     #[Test]
-    public function testGetPartnerFailsWhenIdIsInvalid()
+    public function test_get_partner_fails_when_id_is_invalid()
     {
         $this->expectException(ModelNotFoundException::class);
 
@@ -308,7 +308,7 @@ class PartnerServiceTest extends TestCase
     }
 
     #[Test]
-    public function testUpdatePartnerSuccessfullyWithAllDetails()
+    public function test_update_partner_successfully_with_all_details()
     {
         $partners = Partner::factory(1)->create();
         $data = [
@@ -346,7 +346,7 @@ class PartnerServiceTest extends TestCase
     }
 
     #[Test]
-    public function testUpdatePartnerFailsWhenNameIsInvalid()
+    public function test_update_partner_fails_when_name_is_invalid()
     {
         $partners = Partner::factory(1)->create();
         $data = [
@@ -368,7 +368,7 @@ class PartnerServiceTest extends TestCase
     }
 
     #[Test]
-    public function testUpdatePartnerFailsWhenDescriptionIsInvalid()
+    public function test_update_partner_fails_when_description_is_invalid()
     {
         $partners = Partner::factory(1)->create();
         $data = [
@@ -390,7 +390,7 @@ class PartnerServiceTest extends TestCase
     }
 
     #[Test]
-    public function testUpdatePartnerFailsWhenWebsiteIsInvalid()
+    public function test_update_partner_fails_when_website_is_invalid()
     {
         $partners = Partner::factory(1)->create();
         $data = [
@@ -412,7 +412,7 @@ class PartnerServiceTest extends TestCase
     }
 
     #[Test]
-    public function testUpdatePartnerFailsWhenEmailIsInvalid()
+    public function test_update_partner_fails_when_email_is_invalid()
     {
         $partners = Partner::factory(1)->create();
         $data = [
@@ -434,7 +434,7 @@ class PartnerServiceTest extends TestCase
     }
 
     #[Test]
-    public function testUpdatePartnerFailsWhenPhoneNumberIsInvalid()
+    public function test_update_partner_fails_when_phone_number_is_invalid()
     {
         $partners = Partner::factory(1)->create();
         $data = [
@@ -456,7 +456,7 @@ class PartnerServiceTest extends TestCase
     }
 
     #[Test]
-    public function testUpdatePartnerFailsWhenStatusIsInvalid()
+    public function test_update_partner_fails_when_status_is_invalid()
     {
         $partners = Partner::factory(1)->create();
         $data = [
@@ -478,7 +478,7 @@ class PartnerServiceTest extends TestCase
     }
 
     #[Test]
-    public function testUpdatePartnerFailsWhenLogoPathIsInvalid()
+    public function test_update_partner_fails_when_logo_path_is_invalid()
     {
         $partners = Partner::factory(1)->create();
         $data = [
@@ -500,7 +500,7 @@ class PartnerServiceTest extends TestCase
     }
 
     #[Test]
-    public function testDeletePartnerSuccessfully()
+    public function test_delete_partner_successfully()
     {
         $partners = Partner::factory(1)->create();
 
@@ -511,7 +511,7 @@ class PartnerServiceTest extends TestCase
     }
 
     #[Test]
-    public function testDeletePartnerFailsWhenIdIsInvalid()
+    public function test_delete_partner_fails_when_id_is_invalid()
     {
         $this->expectException(ModelNotFoundException::class);
 
