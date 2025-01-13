@@ -1,12 +1,9 @@
 name: Fix Coding Style
 
 on:
-  workflow_dispatch:
-    inputs:
-      branch:
-        description: "The branch to run Pint on (must not be 'main')"
-        required: true
-        default: ""
+  push:
+    branches-ignore:
+      - main
 
 jobs:
   lint:
@@ -15,8 +12,6 @@ jobs:
       fail-fast: true
       matrix:
         php: [8.4]
-
-    if: ${{ github.ref != 'refs/heads/main' }}
 
     steps:
       - name: Checkout code
