@@ -11,7 +11,8 @@
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
         "livewire/livewire": "^3.5",
-        "robsontenorio/mary": "^1.41"
+        "robsontenorio/mary": "^1.41",
+        "spatie/laravel-permission": "^6.10"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^3.2",

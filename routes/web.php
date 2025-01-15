@@ -1,6 +1,7 @@
 <?php
 
-use App\Livewire\Pages\Internal\Partner as Partner;
+use App\Livewire\Pages\Internal\Partner as PartnerPages;
+use App\Models\Partner;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -16,5 +17,7 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 
-    Route::get('/internal/partners', Partner\Index::class)->name('partners.index');
+    Route::get('/internal/partners', PartnerPages\Index::class)
+        ->middleware('can:viewAny,'.Partner::class)
+        ->name('partners.index');
 });

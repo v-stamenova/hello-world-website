@@ -32,13 +32,18 @@ class Delete extends Component
     public function setUpModal(int $partnerId): void
     {
         $this->reset();
+
         $this->partnerId = $partnerId;
         $this->partner = $this->partnerService->getPartner($partnerId);
+        $this->authorize('delete', $this->partner);
+
         $this->deleteIsOpen = true;
     }
 
     public function confirm(): void
     {
+        $this->authorize('delete', $this->partner);
+
         try {
             $this->partnerService->deletePartner($this->partnerId);
             $this->cleanUpSuccessfully();
