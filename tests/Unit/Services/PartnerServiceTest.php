@@ -3,10 +3,12 @@
 namespace Tests\Unit\Services;
 
 use App\Models\Partner;
+use App\Models\User;
 use App\Services\PartnerService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Validation\ValidationException;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
@@ -21,6 +23,7 @@ class PartnerServiceTest extends TestCase
     {
         parent::setUp();
         $this->partnerService = App::make('App\Services\PartnerService');
+        Artisan::call('app:sync-permissions');
     }
 
     #[Test]
@@ -74,6 +77,11 @@ class PartnerServiceTest extends TestCase
     #[Test]
     public function test_create_partner_successfully_with_all_details()
     {
+        $user = User::factory()->create();
+        $user->givePermissionTo('create partner');
+
+        $this->actingAs($user);
+
         $data = [
             'name' => 'Example Partner Name',
             'description' => 'This is a valid description for the partner.',
@@ -110,6 +118,11 @@ class PartnerServiceTest extends TestCase
     #[Test]
     public function test_create_partner_successfully_with_only_required_details()
     {
+        $user = User::factory()->create();
+        $user->givePermissionTo('create partner');
+
+        $this->actingAs($user);
+
         $data = [
             'name' => 'Example Partner Name',
             'description' => 'This is a valid description for the partner.',
@@ -143,6 +156,11 @@ class PartnerServiceTest extends TestCase
     #[Test]
     public function test_create_partner_fails_when_name_is_invalid()
     {
+        $user = User::factory()->create();
+        $user->givePermissionTo('create partner');
+
+        $this->actingAs($user);
+
         $data = [
             'name' => '',
             'description' => 'This is a valid description for the partner.',
@@ -164,6 +182,11 @@ class PartnerServiceTest extends TestCase
     #[Test]
     public function test_create_partner_fails_when_description_is_invalid()
     {
+        $user = User::factory()->create();
+        $user->givePermissionTo('create partner');
+
+        $this->actingAs($user);
+
         $data = [
             'name' => 'Valid Name',
             'description' => '',
@@ -185,6 +208,11 @@ class PartnerServiceTest extends TestCase
     #[Test]
     public function test_create_partner_fails_when_website_is_invalid()
     {
+        $user = User::factory()->create();
+        $user->givePermissionTo('create partner');
+
+        $this->actingAs($user);
+
         $data = [
             'name' => 'Valid Name',
             'description' => 'Valid description.',
@@ -206,6 +234,11 @@ class PartnerServiceTest extends TestCase
     #[Test]
     public function test_create_partner_fails_when_email_is_invalid()
     {
+        $user = User::factory()->create();
+        $user->givePermissionTo('create partner');
+
+        $this->actingAs($user);
+
         $data = [
             'name' => 'Valid Name',
             'description' => 'Valid description.',
@@ -227,6 +260,11 @@ class PartnerServiceTest extends TestCase
     #[Test]
     public function test_create_partner_fails_when_phone_number_is_invalid()
     {
+        $user = User::factory()->create();
+        $user->givePermissionTo('create partner');
+
+        $this->actingAs($user);
+
         $data = [
             'name' => 'Valid Name',
             'description' => 'Valid description.',
@@ -248,6 +286,11 @@ class PartnerServiceTest extends TestCase
     #[Test]
     public function test_create_partner_fails_when_status_is_invalid()
     {
+        $user = User::factory()->create();
+        $user->givePermissionTo('create partner');
+
+        $this->actingAs($user);
+
         $data = [
             'name' => 'Valid Name',
             'description' => 'Valid description.',
@@ -269,6 +312,11 @@ class PartnerServiceTest extends TestCase
     #[Test]
     public function test_create_partner_fails_when_logo_path_is_invalid()
     {
+        $user = User::factory()->create();
+        $user->givePermissionTo('create partner');
+
+        $this->actingAs($user);
+
         $data = [
             'name' => 'Valid Name',
             'description' => 'Valid description.',
@@ -310,6 +358,11 @@ class PartnerServiceTest extends TestCase
     #[Test]
     public function test_update_partner_successfully_with_all_details()
     {
+        $user = User::factory()->create();
+        $user->givePermissionTo('update partner');
+
+        $this->actingAs($user);
+
         $partners = Partner::factory(1)->create();
         $data = [
             'name' => 'Example Partner Name',
@@ -348,6 +401,11 @@ class PartnerServiceTest extends TestCase
     #[Test]
     public function test_update_partner_fails_when_name_is_invalid()
     {
+        $user = User::factory()->create();
+        $user->givePermissionTo('update partner');
+
+        $this->actingAs($user);
+
         $partners = Partner::factory(1)->create();
         $data = [
             'name' => '',
@@ -370,6 +428,11 @@ class PartnerServiceTest extends TestCase
     #[Test]
     public function test_update_partner_fails_when_description_is_invalid()
     {
+        $user = User::factory()->create();
+        $user->givePermissionTo('update partner');
+
+        $this->actingAs($user);
+
         $partners = Partner::factory(1)->create();
         $data = [
             'name' => 'Valid Name',
@@ -392,6 +455,11 @@ class PartnerServiceTest extends TestCase
     #[Test]
     public function test_update_partner_fails_when_website_is_invalid()
     {
+        $user = User::factory()->create();
+        $user->givePermissionTo('update partner');
+
+        $this->actingAs($user);
+
         $partners = Partner::factory(1)->create();
         $data = [
             'name' => 'Valid Name',
@@ -414,6 +482,11 @@ class PartnerServiceTest extends TestCase
     #[Test]
     public function test_update_partner_fails_when_email_is_invalid()
     {
+        $user = User::factory()->create();
+        $user->givePermissionTo('update partner');
+
+        $this->actingAs($user);
+
         $partners = Partner::factory(1)->create();
         $data = [
             'name' => 'Valid Name',
@@ -436,6 +509,11 @@ class PartnerServiceTest extends TestCase
     #[Test]
     public function test_update_partner_fails_when_phone_number_is_invalid()
     {
+        $user = User::factory()->create();
+        $user->givePermissionTo('update partner');
+
+        $this->actingAs($user);
+
         $partners = Partner::factory(1)->create();
         $data = [
             'name' => 'Valid Name',
@@ -458,6 +536,11 @@ class PartnerServiceTest extends TestCase
     #[Test]
     public function test_update_partner_fails_when_status_is_invalid()
     {
+        $user = User::factory()->create();
+        $user->givePermissionTo('update partner');
+
+        $this->actingAs($user);
+
         $partners = Partner::factory(1)->create();
         $data = [
             'name' => 'Valid Name',
@@ -480,6 +563,11 @@ class PartnerServiceTest extends TestCase
     #[Test]
     public function test_update_partner_fails_when_logo_path_is_invalid()
     {
+        $user = User::factory()->create();
+        $user->givePermissionTo('update partner');
+
+        $this->actingAs($user);
+
         $partners = Partner::factory(1)->create();
         $data = [
             'name' => 'Valid Name',
@@ -502,6 +590,11 @@ class PartnerServiceTest extends TestCase
     #[Test]
     public function test_delete_partner_successfully()
     {
+        $user = User::factory()->create();
+        $user->givePermissionTo('delete partner');
+
+        $this->actingAs($user);
+
         $partners = Partner::factory(1)->create();
 
         $isDeleted = $this->partnerService->deletePartner($partners[0]->id);
@@ -513,6 +606,11 @@ class PartnerServiceTest extends TestCase
     #[Test]
     public function test_delete_partner_fails_when_id_is_invalid()
     {
+        $user = User::factory()->create();
+        $user->givePermissionTo('delete partner');
+
+        $this->actingAs($user);
+
         $this->expectException(ModelNotFoundException::class);
 
         $this->partnerService->getPartner(3);
