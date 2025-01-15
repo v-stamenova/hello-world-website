@@ -38,8 +38,8 @@ class PartnerService
             throw new ValidationException($validator);
         }
 
-        if (!Auth::user()->can('create', Partner::class)) {
-            throw new AuthorizationException();
+        if (Auth::user() && ! Auth::user()->can('create', Partner::class)) {
+            throw new AuthorizationException;
         }
 
         return Partner::create($validator->validated());
@@ -51,7 +51,8 @@ class PartnerService
     }
 
     /**
-     * @param non-empty-array<string, mixed> $data
+     * @param  non-empty-array<string, mixed>  $data
+     *
      * @throws ValidationException
      * @throws AuthorizationException
      */
@@ -63,8 +64,8 @@ class PartnerService
         }
 
         $partner = $this->getPartner($partnerId);
-        if (!Auth::user()->can('update', $partner)){
-            throw new AuthorizationException();
+        if (Auth::user() && ! Auth::user()->can('update', $partner)) {
+            throw new AuthorizationException;
         }
 
         return $partner->update($validator->validated());
@@ -73,8 +74,8 @@ class PartnerService
     public function deletePartner(int $partnerId): bool
     {
         $partner = $this->getPartner($partnerId);
-        if (!Auth::user()->can('delete', $partner)){
-            throw new AuthorizationException();
+        if (Auth::user() && ! Auth::user()->can('delete', $partner)) {
+            throw new AuthorizationException;
         }
 
         return $partner->delete() ?? false;

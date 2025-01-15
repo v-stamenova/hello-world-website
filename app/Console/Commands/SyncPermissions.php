@@ -4,7 +4,6 @@ namespace App\Console\Commands;
 
 use Exception;
 use Illuminate\Console\Command;
-use Illuminate\Validation\ValidationException;
 use Spatie\Permission\Exceptions\RoleDoesNotExist;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -33,14 +32,14 @@ class SyncPermissions extends Command
     /**
      * Execute the console command.
      */
-    public function handle() : void
+    public function handle(): void
     {
         $config = $this->readPermissionConfig();
 
         $this->syncRoles($config['roles']);
         $this->syncPermissions($config['permissions']);
 
-        $this->info("Successful synchronization.");
+        $this->info('Successful synchronization.');
     }
 
     /**
@@ -50,28 +49,29 @@ class SyncPermissions extends Command
      *     roles: array<int, string>,
      *     permissions: array<string, array<string, array<int, string>>>
      * }
+     *
      * @throws Exception
      */
     private function readPermissionConfig(): array
     {
         $configPath = config_path('roles_permissions.yml');
-        if (!$configPath) {
-            throw new Exception("Error: file config/roles_permissions.yml is not found!");
+        if (! $configPath) {
+            throw new Exception('Error: file config/roles_permissions.yml is not found!');
         }
 
         $content = file_get_contents($configPath);
-        if (!$content) {
+        if (! $content) {
             throw new Exception("Error: failed to read $configPath!");
         }
 
         $config = Yaml::parse($content);
         assert(is_array($config));
 
-        if (!isset($config['roles'])) {
-            throw new Exception("Error: there are no roles specified!");
+        if (! isset($config['roles'])) {
+            throw new Exception('Error: there are no roles specified!');
         }
-        if (!isset($config['permissions'])) {
-            throw new Exception("Error: there are no permissions specified!");
+        if (! isset($config['permissions'])) {
+            throw new Exception('Error: there are no permissions specified!');
         }
 
         return $config;
@@ -80,7 +80,7 @@ class SyncPermissions extends Command
     /**
      * Synchronizes all the role data
      *
-     * @param array<int, string> $input
+     * @param  array<int, string>  $input
      * @return void
      */
     private function syncRoles(array $input)
@@ -95,7 +95,7 @@ class SyncPermissions extends Command
         }
 
         // Delete the roles that are not in the config
-        $names_array = array_map(fn($item) => $item['name'], $role_data);
+        $names_array = array_map(fn ($item) => $item['name'], $role_data);
         Role::whereNotIn('name', $names_array)->delete();
     }
 
@@ -108,13 +108,13 @@ class SyncPermissions extends Command
      * ]
      * ```
      *
-     * @param array<int, string> $roles
+     * @param  array<int, string>  $roles
      * @return array<int, array{name: string}>
      */
     private function prepareRoles(array $roles)
     {
         return array_map(
-            fn($role) => ['name' => $role],
+            fn ($role) => ['name' => $role],
             $roles
         );
     }
@@ -122,7 +122,7 @@ class SyncPermissions extends Command
     /**
      * Synchronizes the permissions.
      *
-     * @param array<string, array<string, array<int, string>>> $permissions
+     * @param  array<string, array<string, array<int, string>>>  $permissions
      * @return void
      */
     private function syncPermissions(array $permissions)
@@ -142,7 +142,7 @@ class SyncPermissions extends Command
             }
         }
         // Delete the permissions that are not in the config
-        $names_array = array_map(fn($item) => $item['name'], $permissions);
+        $names_array = array_map(fn ($item) => $item['name'], $permissions);
         Permission::whereNotIn('name', $names_array)->delete();
     }
 
@@ -155,7 +155,8 @@ class SyncPermissions extends Command
      *     'roles' => $array_of_role_names
      * ]
      * ```
-     * @param array<string, array<string, array<int, string>>> $permissions
+     *
+     * @param  array<string, array<string, array<int, string>>>  $permissions
      * @return array<int, array{
      *      name: string,
      *      roles: array<int, string>
@@ -180,14 +181,14 @@ class SyncPermissions extends Command
                         $result[] = [
                             // The naming convention for nested permissions is ALSO set here
                             'name' => "$nested_key $key",
-                            'roles' => $nested_content
+                            'roles' => $nested_content,
                         ];
                     }
                 }
             } else {
                 $result[] = [
                     'name' => $key,
-                    'roles' => $content
+                    'roles' => $content,
                 ];
             }
         }
@@ -200,14 +201,14 @@ class SyncPermissions extends Command
      * Checks if the given input appears to have permission attributes like
      * `guard_name` and `roles`.
      *
-     * @param array<int, string>|array<string, array<int, string>>|string $input
-     * @return bool
+     * @param  array<int, string>|array<string, array<int, string>>|string  $input
      */
     private function hasPermissionAttributes(array|string $input): bool
     {
-        if (!is_array($input)) {
+        if (! is_array($input)) {
             return false;
         }
+
         // If the nested content holds the keys 'guard_name' or 'roles'
         // it is assumed to be an atomic permission with a guard_name or roles specified as attributes
         return array_key_exists('guard_name', $input) || array_key_exists('roles', $input);
@@ -216,16 +217,16 @@ class SyncPermissions extends Command
     /**
      * Checks if the given permission content is a nested permission.
      *
-     * @param array<string, mixed>|array<int, mixed>|string $content
-     * @return bool
+     * @param  array<string, mixed>|array<int, mixed>|string  $content
      */
-    private function isNested(array|string $content) : bool
+    private function isNested(array|string $content): bool
     {
-        if (!is_array($content)) {
+        if (! is_array($content)) {
             return false;
         }
+
         // Use the `array_is_list()` function that checks if the array keys are 0, 1, ...
         // So, if the content is just an array, it assumes it is an atomic permission
-        return !array_is_list($content);
+        return ! array_is_list($content);
     }
 }

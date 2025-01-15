@@ -18,6 +18,6 @@ Route::middleware([
     })->name('dashboard');
 
     Route::get('/internal/partners', PartnerPages\Index::class)
-        ->middleware('can:viewAny,' . Partner::class)
+        ->middleware('can:viewAny,'.Partner::class)
         ->name('partners.index');
 });
