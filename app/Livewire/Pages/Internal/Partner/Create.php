@@ -59,6 +59,8 @@ class Create extends Component
     public function setUpModal(): void
     {
         $this->reset();
+        $this->authorize('create', Partner::class);
+
         $this->logo_path = '';
         $this->resetErrorBag();
         $this->render();
@@ -69,6 +71,8 @@ class Create extends Component
 
     public function save(): void
     {
+        $this->authorize('create', Partner::class);
+
         $data = $this->validate(
             array_merge(
                 Partner::validationRulesCreation(),

@@ -3,8 +3,10 @@
 namespace App\Services;
 
 use App\Models\Partner;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 
@@ -32,9 +34,12 @@ class PartnerService
     public function createPartner(array $data): Partner
     {
         $validator = Validator::make($data, Partner::validationRulesCreation());
-
         if ($validator->fails()) {
             throw new ValidationException($validator);
+        }
+
+        if (!Auth::user()->can('create', Partner::class)) {
+            throw new AuthorizationException();
         }
 
         return Partner::create($validator->validated());
@@ -46,22 +51,32 @@ class PartnerService
     }
 
     /**
-     * @param  non-empty-array<string, mixed>  $data
+     * @param non-empty-array<string, mixed> $data
+     * @throws ValidationException
+     * @throws AuthorizationException
      */
     public function updatePartner(int $partnerId, array $data): bool
     {
         $validator = Validator::make($data, Partner::validationRulesUpdate());
-
         if ($validator->fails()) {
             throw new ValidationException($validator);
         }
+
         $partner = $this->getPartner($partnerId);
+        if (!Auth::user()->can('update', $partner)){
+            throw new AuthorizationException();
+        }
 
         return $partner->update($validator->validated());
     }
 
     public function deletePartner(int $partnerId): bool
     {
-        return Partner::query()->findOrFail($partnerId)->delete() ?? false;
+        $partner = $this->getPartner($partnerId);
+        if (!Auth::user()->can('delete', $partner)){
+            throw new AuthorizationException();
+        }
+
+        return $partner->delete() ?? false;
     }
 }

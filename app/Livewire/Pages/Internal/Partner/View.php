@@ -29,8 +29,11 @@ class View extends Component
     public function setUpModal(int $partnerId): void
     {
         $this->reset();
+
         $this->partnerId = $partnerId;
         $this->partner = $this->partnerService->getPartner($partnerId);
+        $this->authorize('view', $this->partner);
+
         $this->viewIsOpen = true;
     }
 

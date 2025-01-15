@@ -61,6 +61,8 @@ class Edit extends Component
 
     public function save(): void
     {
+        $this->authorize('update', $this->partner);
+
         $data = $this->validate(
             array_merge(
                 Partner::validationRulesUpdate(),
@@ -100,6 +102,8 @@ class Edit extends Component
 
         $this->partnerId = $partnerId;
         $this->partner = $this->partnerService->getPartner($partnerId);
+        $this->authorize('update', $this->partner);
+
         $this->availableStatuses = EnumHelper::getStatuses();
 
         $this->name = $this->partner->name;
