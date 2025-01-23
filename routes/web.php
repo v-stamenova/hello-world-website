@@ -13,11 +13,9 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->name('internal.')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
-
     Route::get('/internal/partners', PartnerPages\Index::class)
         ->middleware('can:viewAny,'.Partner::class)
         ->name('partners.index');
 });
+
+Route::get('/dashboard', App\Livewire\Pages\Dashboard::class)->name('dashboard');
